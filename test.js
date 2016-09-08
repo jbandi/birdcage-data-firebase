@@ -8,13 +8,13 @@ describe('Tweet Repository', () => {
         // await repo.init();
         const tweets = await repo.getTweets();
         assert(tweets.length > 0);
-    });
+    }).timeout(5000);
 
     it('should add a tweet', async () => {
         // await repo.init();
         const initialTweets = await repo.getTweets();
-        await repo.addTweet({title: `Hello at ${new Date()}`});
+        await repo.addTweet(`Hello at ${new Date()}`);
         const newTweets = await repo.getTweets();
         assert.equal(initialTweets.length + 1, newTweets.length);
-    })
+    }).timeout(5000);
 });

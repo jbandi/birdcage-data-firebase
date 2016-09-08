@@ -25,11 +25,14 @@ class BirdcageRepository {
             .then(() => {
                 return new Promise(function (resolve) {
 
-                    const postRef = firebase.database().ref(`posts/${USER}`);
+                    const postRef = firebase.database().ref(`posts/${USER}`)
+                        .orderByPriority()
+                        .startAt(2);
                     postRef.on('value', snapshot => {
+                        var tweetsArray = [];
                         var tweetsObj = snapshot.exportVal();
                         if (tweetsObj) {
-                            var tweetsArray = Object.keys(tweetsObj).map(x => tweetsObj[x])
+                            tweetsArray = Object.keys(tweetsObj).map(x => tweetsObj[x])
                         }
                         resolve(tweetsArray);
                     })
@@ -42,7 +45,8 @@ class BirdcageRepository {
             .then(() => {
                 var tweet = {
                     content: title,
-                    '.priority': Date.now(),
+                    // '.priority': Date.now(),
+                    '.priority':  Math.random() * 10000 + 2,
                     sent_count: 0
                 };
                 return new Promise(function (resolve) {
